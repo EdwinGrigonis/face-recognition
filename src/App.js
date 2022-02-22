@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Particles from "react-tsparticles";
+import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+/*import Clarifai from "clarifai";*/
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
@@ -7,19 +9,33 @@ import Rank from './components/Rank/Rank';
 import 'tachyons';
 import './App.css';
 
-  
-function App() {
-  const particlesInit = (main) => {
-    console.log(main);
-  };
+class App extends Component {
+  constructor () {
+    super();
+    this.state = {
+      input: '',
+      imageUrl: '',
+    };
+  }
 
-  const particlesLoaded = (container) => {
-    console.log(container);
-  };
+  onInputChange = (event) => {
+    this.setState({input: event.target.value});
+  }
+
+  onButtonSubmit = () => {
+    this.setState({imageUrl: this.state.input});
+  }
+  render () {
+    const particlesInit = (main) => {
+      console.log(main);
+    };
+  
+    const particlesLoaded = (container) => {
+      console.log(container);
+    };
 
   return (
     <div className="App">
-      
       <Navigation />
       <Particles className='particles'
       id="tsparticles"
@@ -100,12 +116,11 @@ function App() {
     />
       <Logo />
       <Rank />
-      <ImageLinkForm />
-         {/*
-      <FaceRecognition />*/}
-      
+      <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+      <FaceRecognition imageUrl={this.state.imageUrl}/>
     </div>
   );
+  }
 }
 
 export default App;
